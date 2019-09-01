@@ -22,6 +22,7 @@ class MoneyForm extends Component {
     this.setState(
       { newMoney: e.target.value }
     )
+
   }
   handleKeyUp = (e) => {
 
@@ -29,12 +30,17 @@ class MoneyForm extends Component {
 
     if (this.state.newMoney === "") {
       this.setState(
-        { isValid: false, money: this.state.newMoney, message: "Enter some value" }
+        { isValid: false, money: this.state.newMoney, message: "Enter some value, boiiii" }
       )
     }
-    if (regExp.test(this.state.newMoney)) {
+    else if (regExp.test(this.state.newMoney)) {
       this.setState(
         { isValid: true, money: this.state.newMoney, message: this.state.newMoney }
+      )
+    }
+    else if (!this.state.isValid) {
+      this.setState(
+        { isValid: false, message: "Enter a valid value" }
       )
     }
     else {
@@ -49,7 +55,7 @@ class MoneyForm extends Component {
     this.props.setMoney(this.convertCurrency(this.state.money));
 
     this.setState(
-      { money: "", newMoney: "", isValid: false }
+      { newMoney: "", isValid: false, message: this.state.newMoney }
     )
   }
 
@@ -57,7 +63,7 @@ class MoneyForm extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input type='text' inputMode="numeric" placeholder='El parné' onChange={this.handleChange} onKeyUp={this.handleKeyUp} value={this.state.newMoney} required />
+          <input type='text' inputMode="numeric" maxLength="14" placeholder='El parné' onChange={this.handleChange} onKeyUp={this.handleKeyUp} value={this.state.newMoney} required />
           <input type="submit" disabled={!this.state.isValid} value="Submit" />
           <p>{this.state.message}</p>
         </form>

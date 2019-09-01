@@ -9,8 +9,8 @@ class TaeCompare extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: "default",
-      sort: "default"
+      filter: ["default"],
+      sort: ["default", "taeMoney"]
     }
   }
 
@@ -33,9 +33,14 @@ y el banco tu cuerpo ${impuesto}`)
         montante += Number(result);
       }
       console.log((Math.round(montante * 100) / 100).toFixed(2) + " " + bank);
-      let montanteID = { id: id, saving: montante };
+      let montanteID = { id: id, value: montante };
       this.props.saveTae(montanteID);
       console.log(montanteID);
+    }
+  }
+  taeSavingsNull = () => {
+    if (typeof this.props.taeSavings !== "undefined") {
+      return this.props.taeSavings;
     }
   }
 
@@ -49,7 +54,7 @@ y el banco tu cuerpo ${impuesto}`)
       <div className="App">
         <h3>Tae Compare Tool</h3>
         <MoneyForm />
-        <BankList banks={this.props.banks} filter={this.state.filter} sort={this.state.sort} />
+        <BankList banks={this.props.banks} filter={this.state.filter} sort={this.state.sort} money={this.props.taeSavings} />
       </div>
     );
   }
