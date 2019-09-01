@@ -6,14 +6,6 @@ import BankList from "./components/BankList"
 
 class TaeCompare extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: ["default"],
-      sort: ["default", "taeMoney"]
-    }
-  }
-
   taeCalculator = () => {
 
     for (let i = 0; i < this.props.banks.length; i++) {
@@ -33,17 +25,12 @@ y el banco tu cuerpo ${impuesto}`)
         montante += Number(result);
       }
       console.log((Math.round(montante * 100) / 100).toFixed(2) + " " + bank);
-      let montanteID = { id: id, value: montante };
+      let montanteID = { id: id, savings: montante };
       this.props.saveTae(montanteID);
       console.log(montanteID);
     }
   }
-  taeSavingsNull = () => {
-    if (typeof this.props.taeSavings !== "undefined") {
-      return this.props.taeSavings;
-    }
-  }
-
+  
   componentDidUpdate(prevProps) {
     if (prevProps.money !== this.props.money) {
       this.taeCalculator();
@@ -54,7 +41,7 @@ y el banco tu cuerpo ${impuesto}`)
       <div className="App">
         <h3>Tae Compare Tool</h3>
         <MoneyForm />
-        <BankList banks={this.props.banks} filter={this.state.filter} sort={this.state.sort} money={this.props.taeSavings} />
+        <BankList banks={this.props.banks} />
       </div>
     );
   }
@@ -64,13 +51,11 @@ const mapStateToProps = (state) => {
   return {
     money: state.money,
     banks: state.banks,
-    taeSavings: state.taeSavings
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveTae: (taeSavings) => { dispatch({ type: "TAE_SAVINGS", taeSavings: taeSavings }) },
-    //sortTae: (sortIt) => { dispatch({ type: "TAE_SORT", taeSavings: taeSavings }) }
+    saveTae: (savings) => { dispatch({ type: "SAVINGS", savings: savings }) },
   }
 }
 

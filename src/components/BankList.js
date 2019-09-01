@@ -1,22 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-const BankList = ({ banks }, { money }) => {
-  const second = (index) => {
-    if (typeof taeSavings !== "undefined") {
-      return taeSavings[index].saving
-    }
-  }
+const BankList = ({ banks }) => {
+
   const PopulateBankList = () => {
-    console.log(money + " money");
     return (
       <ul>
-        {banks.map((bank, index) => (
-          <li key={bank.id}>{bank.name} is {money}</li>
+        {banks.sort((a, b) => b.savings - a.savings).map((bank) => (
+          <li key={bank.id}>{bank.name} is {bank.savings}</li>
         ))}
       </ul>
     );
-
   }
   return (
     <div>
